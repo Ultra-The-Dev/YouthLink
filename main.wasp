@@ -1,0 +1,55 @@
+app YouthLink {
+  wasp: {
+    version: "^0.14.0"
+  },
+  title: "YouthLink",
+  client: {
+    rootComponent: import { Layout } from "@src/Layout.jsx",
+  },
+  auth: {
+    userEntity: User,
+    methods: {
+      usernameAndPassword: {}
+    },
+    onAuthFailedRedirectTo: "/login",
+    onAuthSucceededRedirectTo: "/"
+  },
+}
+
+route MessagesRoute { path: "/messages", to: MessagesPage }
+page MessagesPage {
+  component: import MessagesPage from "@src/Pages/MessagesPage.jsx",
+  authRequired: true
+}
+
+route MentorsListRoute { path: "/mentors", to: MentorsListPage }
+page MentorsListPage {
+  component: import MentorsListPage from "@src/pages/MentorsListPage.jsx",
+  authRequired: true
+}
+
+route HomeRoute { path: "/", to: HomePage }
+page HomePage {
+  component: import HomePage from "@src/pages/HomePage.jsx",
+  authRequired: true
+}
+
+action createMessage {
+  fn: import { createMessage } from "@src/actions.js",
+  entities: [Message],
+}
+
+action deleteMessage {
+  fn: import { deleteMessage } from "@src/actions.js",
+  entities: [Message],
+}
+
+query getMessages {
+  fn: import { getMessages } from "@src/queries.js",
+  entities: [Message],
+}
+
+query getUserMentors {
+  fn: import { getUserMentors } from "@src/queries.js",
+  entities: [Mentors, User],
+}
